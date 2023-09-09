@@ -1,0 +1,146 @@
+<!DOCTYPE html>
+
+<head>
+  <meta charset="UTF-8">
+  <title>Document</title>
+</head>
+
+<script>
+  // get current time
+  setInterval(myTimer, 1000);
+
+  function myTimer() {
+    const months = [
+      "Jan", "Feb", "Mar", "Apr",
+      "May", "Jun", "Jul", "Aug",
+      "Sep", "Oct", "Nov", "Dec"
+    ];
+
+    const days = [
+      "Sun", "Mon", "Tue", "Wed", "Thu", "Fri", "Sat"
+    ];
+
+    const now = new Date();
+    const day = days[now.getUTCDay()];
+    const month = months[now.getUTCMonth()];
+    const date = now.getUTCDate().toString().padStart(2, '0');
+    const hours = now.getUTCHours().toString().padStart(2, '0') - 4;
+    const minutes = now.getUTCMinutes().toString().padStart(2, '0');
+    const seconds = now.getUTCSeconds().toString().padStart(2, '0');
+    const ampm = hours >= 12 ? 'PM' : 'AM';
+
+    document.getElementById("time").innerHTML = `${day}, ${month} ${date} ${hours}:${minutes}:${seconds} ${ampm}`;
+
+    // get a reverse counter for time till month end
+    const monthEnd = new Date(now.getUTCFullYear(), now.getUTCMonth() + 1, 0);
+    const monthEndSeconds = Math.floor((monthEnd - now) / 1000);
+    const monthEndMinutes = Math.floor(monthEndSeconds / 60);
+    const monthEndHours = Math.floor(monthEndMinutes / 60);
+    const monthEndDays = Math.floor(monthEndHours / 24);
+
+    const monthEndHoursLeft = monthEndHours - monthEndDays * 24;
+    const monthEndMinutesLeft = monthEndMinutes - monthEndDays * 24 * 60 - monthEndHoursLeft * 60;
+    const monthEndSecondsLeft = monthEndSeconds - monthEndDays * 24 * 60 * 60 - monthEndHoursLeft * 60 * 60 - monthEndMinutesLeft * 60;
+    document.getElementById("expire").innerHTML = `Expires in ${monthEndDays}:${monthEndHoursLeft}:${monthEndMinutesLeft}:${monthEndSecondsLeft}`;
+
+
+  }
+
+</script>
+
+
+<style>
+  * {
+    margin: 0;
+    padding: 0;
+  }
+
+  .container {
+    width: 100vw;
+    height: 100vh;
+    position: relative;
+  }
+
+  /* make the top to fit the page */
+  .top {
+    width: 100vw;
+    position: absolute;
+    /* top: 0; */
+    left: -5px;
+    object-fit: contain;
+  }
+
+  /* make bar to blink at some interval */
+  @keyframes flash {
+    50% {
+      opacity: 0;
+    }
+  }
+
+  .bar {
+    width: 100vw;
+
+    /* width: 100%; */
+    position: absolute;
+    bottom: 12vh;
+    animation: flash 1s step-start infinite;
+
+  }
+
+  p {
+    position: absolute;
+    bottom: 15vh;
+    left: 24%;
+    /* transform: translate(-50%, -50%); */
+    font-size: 4.5vw;
+    font-family: 'Lucida Sans', 'Lucida Sans Regular', 'Lucida Grande', 'Lucida Sans Unicode', Geneva, Verdana, sans-serif;
+    font-weight: bold;
+  }
+
+  span {
+    position: absolute;
+    bottom: 9vh;
+    left: 50%;
+    transform: translateX(-50%);
+    font-size: 3vw;
+    font-family: 'Lucida Sans', 'Lucida Sans Regular', 'Lucida Grande', 'Lucida Sans Unicode', Geneva, Verdana, sans-serif;
+    font-weight: 900;
+  }
+
+  .bottom {
+    width: 100vw;
+    position: absolute;
+    bottom: -10px;
+    left: -5px;
+    /* object-fit: contain; */
+  }
+</style>
+
+<body>
+  <div class="container">
+    <div class="top">
+      <img src="top.png" alt="">
+    </div>
+
+
+
+    <div class="bottom">
+      <p id="time">This is a demonstration.</p>
+
+      <div class="bar">
+        <img src="mid.png" alt="">
+      </div>
+
+      <span id="expire">Time Expires</span>
+
+      <img src="bottom.png" alt="">
+    </div>
+  </div>
+</body>
+
+<script>
+  myTimer();
+</script>
+
+
+</html>
