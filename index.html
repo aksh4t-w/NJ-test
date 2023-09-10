@@ -24,10 +24,12 @@
     const day = days[now.getUTCDay()];
     const month = months[now.getUTCMonth()];
     const date = now.getUTCDate().toString().padStart(2, '0');
-    const hours = now.getUTCHours().toString().padStart(2, '0') - 4;
+    let hours = now.getUTCHours().toString().padStart(2, '0') - 4;
     const minutes = now.getUTCMinutes().toString().padStart(2, '0');
     const seconds = now.getUTCSeconds().toString().padStart(2, '0');
     const ampm = hours >= 12 ? 'PM' : 'AM';
+    hours = hours >= 12 ? hours - 12 : hours;
+
 
     document.getElementById("time").innerHTML = `${day}, ${month} ${date} ${hours}:${minutes}:${seconds} ${ampm}`;
 
