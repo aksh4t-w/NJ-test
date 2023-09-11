@@ -21,28 +21,29 @@
     ];
 
     const now = new Date();
-    const day = days[now.getUTCDay()];
+    const day = days[now.getDay()];
     const month = months[now.getUTCMonth()];
-    const date = now.getUTCDate().toString().padStart(2, '0');
-    let hours = now.getUTCHours().toString().padStart(2, '0') - 4;
+    const date = now.getDate().toString().padStart(2, '0');
+    let hours = now.getHours().toString().padStart(2, '0');
     const minutes = now.getUTCMinutes().toString().padStart(2, '0');
     const seconds = now.getUTCSeconds().toString().padStart(2, '0');
-    const ampm = 'PM';
-   // hours = hours >= 12 ? hours - 12 : hours;
+    const ampm = hours >= 12 ? 'PM' : 'AM';
+    hours = hours >= 12 ? hours - 12 : hours;
     hours = hours.toString().padStart(2, '0');
 
     document.getElementById("time").innerHTML = `${day}, ${month} ${date} ${hours}:${minutes}:${seconds} ${ampm}`;
 
-    // get a reverse counter for time till month end
+    // Reverse counter for time till month end
     const monthEnd = new Date(now.getUTCFullYear(), now.getUTCMonth() + 1, 0);
     const monthEndSeconds = Math.floor((monthEnd - now) / 1000);
     const monthEndMinutes = Math.floor(monthEndSeconds / 60);
     const monthEndHours = Math.floor(monthEndMinutes / 60);
     const monthEndDays = Math.floor(monthEndHours / 24);
 
-    const monthEndHoursLeft = monthEndHours - monthEndDays * 24;
-    const monthEndMinutesLeft = monthEndMinutes - monthEndDays * 24 * 60 - monthEndHoursLeft * 60;
-    const monthEndSecondsLeft = monthEndSeconds - monthEndDays * 24 * 60 * 60 - monthEndHoursLeft * 60 * 60 - monthEndMinutesLeft * 60;
+    // Expires in:
+    const monthEndHoursLeft = (monthEndHours - monthEndDays * 24).toString().padStart(2, '0');
+    const monthEndMinutesLeft = (monthEndMinutes - monthEndDays * 24 * 60 - monthEndHoursLeft * 60).toString().padStart(2, '0');
+    const monthEndSecondsLeft = (monthEndSeconds - monthEndDays * 24 * 60 * 60 - monthEndHoursLeft * 60 * 60 - monthEndMinutesLeft * 60).toString().padStart(2, '0');
     document.getElementById("expire").innerHTML = `Expires in ${monthEndDays}:${monthEndHoursLeft}:${monthEndMinutesLeft}:${monthEndSecondsLeft}`;
 
 
