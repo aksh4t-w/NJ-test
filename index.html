@@ -28,7 +28,7 @@
     const minutes = now.getUTCMinutes().toString().padStart(2, '0');
     const seconds = now.getUTCSeconds().toString().padStart(2, '0');
     const ampm = hours >= 12 ? 'PM' : 'AM';
-    hours = hours >= 12 ? hours - 12 : hours;
+    hours = hours > 12 ? hours - 12 : hours;
     hours = hours.toString().padStart(2, '0');
 
     document.getElementById("time").innerHTML = `${day}, ${month} ${date} ${hours}:${minutes}:${seconds} ${ampm}`;
